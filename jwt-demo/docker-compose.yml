@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  mysql:
+    container_name: jwt_demo_mysql
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: jwt_demo
+    ports:
+      - '3306:3306'
+
+volumes:
+  jwt_demo:

@@ -11,9 +11,15 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
 
 logging:
   level:
     org:
       hibernate:
         SQL: DEBUG
+
+app:
+  jwt-expression: 86400000

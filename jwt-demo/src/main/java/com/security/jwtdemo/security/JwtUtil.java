@@ -1,27 +1,27 @@
 package com.security.jwtdemo.security;
 
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import java.security.Key;
-import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
+import java.util.Date;
+
 @Component
 public class JwtUtil {
     public static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    byte[] keyBytes = Decoders.BASE64.decode("emre");
-    Key key = Keys.hmacShaKeyFor(keyBytes);
+    @Value("${app.jwt-expression}")
+    private int jwtExpirationMs;
+
+
 
     public String generateToken(Authentication authentication){
         final UserDetails principal = (UserDetails) authentication.getPrincipal();
@@ -29,8 +29,8 @@ public class JwtUtil {
         return Jwts.builder()
             .setSubject(principal.getUsername())
             .setIssuedAt(new Date())
-            .setExpiration(new Date(new Date().getTime() + 86400000))
-            .signWith(key,SignatureAlgorithm.HS256)
+            .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
+            .signWith(key)
             .compact();
     }
 
