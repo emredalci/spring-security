@@ -1,6 +1,7 @@
 package com.security.jwtdemo.controller;
 
 import com.security.jwtdemo.model.RoleResponse;
+import com.security.jwtdemo.model.SaveRoleToUserRequest;
 import com.security.jwtdemo.model.SignUpRequest;
 import com.security.jwtdemo.model.UserResponse;
 import com.security.jwtdemo.service.UserService;
@@ -37,9 +38,9 @@ public class UserController {
         return ResponseEntity.created(uri).body(userService.saveRole(roleType));
     }
 
-    @PostMapping("/{username}/{role}")
-    public ResponseEntity<Void>  saveRoleToUser(@PathVariable String role, @PathVariable String username){
-        userService.addRoleToUser(username,role);
+    @PostMapping("/role")
+    public ResponseEntity<Void>  saveRoleToUser(@Valid @RequestBody SaveRoleToUserRequest saveRoleToUserRequest){
+        userService.addRoleToUser(saveRoleToUserRequest);
         return ResponseEntity.ok().build();
     }
 

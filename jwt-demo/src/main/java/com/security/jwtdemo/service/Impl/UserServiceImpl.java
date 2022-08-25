@@ -9,6 +9,7 @@ import com.security.jwtdemo.exception.UserNotFoundException;
 import com.security.jwtdemo.mapper.RoleMapper;
 import com.security.jwtdemo.mapper.UserMapper;
 import com.security.jwtdemo.model.RoleResponse;
+import com.security.jwtdemo.model.SaveRoleToUserRequest;
 import com.security.jwtdemo.model.SignUpRequest;
 import com.security.jwtdemo.model.UserResponse;
 import com.security.jwtdemo.repository.RoleRepository;
@@ -70,7 +71,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void addRoleToUser(String username, String roleType) {
+    public void addRoleToUser(SaveRoleToUserRequest saveRoleToUserRequest) {
+        String roleType = saveRoleToUserRequest.getRoleType();
+        String username = saveRoleToUserRequest.getUsername();
         log.info("New roleType = {} is adding", roleType);
         User user = userRepository.findByUsername(username)
                         .orElseThrow(()-> new UserNotFoundException("Error: user not found with username " + username));
