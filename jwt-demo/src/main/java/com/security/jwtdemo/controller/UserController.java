@@ -1,6 +1,5 @@
 package com.security.jwtdemo.controller;
 
-import com.security.jwtdemo.entity.Role;
 import com.security.jwtdemo.model.RoleResponse;
 import com.security.jwtdemo.model.SignUpRequest;
 import com.security.jwtdemo.model.UserResponse;
@@ -43,8 +42,5 @@ public class UserController {
         userService.addRoleToUser(username,role);
         return ResponseEntity.ok().build();
     }
-
-
-
 
 }

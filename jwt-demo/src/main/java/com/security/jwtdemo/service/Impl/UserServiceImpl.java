@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,13 +47,6 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
                 .email(signUpRequest.getEmail())
                 .build();
-        Set<Role> roleSet = signUpRequest.getRoleTypeSet().stream()
-                .map((roleType) -> {
-                    Role role = new Role();
-                    role.setRoleType(roleType);
-                    return role;
-                }).collect(Collectors.toSet());
-        createdUser.setRoles(roleSet);
         User savedUser = userRepository.save(createdUser);
         log.info("New user = {} has just saved", savedUser.getUsername());
         return UserMapper.INSTANCE.userToUserResponse(savedUser);
